@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+
+    container_name: frontend
+    networks:
+      - web
+
+  admin:
+    build:
+      context: .
+      dockerfile: ./admin/Dockerfile
+
+    container_name: admin
+    networks:
+      - web
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+
+    container_name: backend
+    networks:
+      - web
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      # Mount the build outputs
+      - frontend_build:/usr/share/nginx/html/frontend
+      - admin_build:/usr/share/nginx/html/admin
+    depends_on:
+      - frontend
+      - admin
+      - backend
+    networks:
+      - web
+
+volumes:
+  frontend_build:
+  admin_build:
+
+networks:
+  web:
+    driver: bridge

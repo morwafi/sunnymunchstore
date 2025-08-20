@@ -1,0 +1,163 @@
+
+
+@font-face {
+  font-family: "LouisGeorgeCafeLight-";
+  font-style: italic;
+  font-format: truetype;
+  font-weight: 400;
+  src: url("public/fonts/louis george cafe light italic.ttf") ;
+}
+@font-face {
+  font-family: "APOLLO-Regular";
+  font-style: normal;
+  font-format: opentype;
+  font-weight: 400;
+  src: url("public/fonts/apollo.otf") ;
+}
+@font-face {
+  font-family: "LouisGeorgeCafe";
+  font-style: normal;
+  font-format: truetype;
+  font-weight: 700;
+  src: url("public/fonts/louis george cafe.ttf") ;
+}
+@font-face {
+  font-family: "OstrichSansInline-Italic";
+  font-style: normal;
+  font-format: opentype;
+  font-weight: 400;
+  src: url("public/fonts/ostrich sans inline-italic.otf") ;
+}
+@font-face {
+  font-family: "OstrichSansInline";
+  font-style: normal;
+  font-format: opentype;
+  font-weight: 400;
+  src: url("public/fonts/ostrich sans inline-regular.otf") ;
+}
+@font-face {
+  font-family: "APOLLO-Italic";
+  font-style: normal;
+  font-format: opentype;
+  font-weight: 400;
+  src: url("public/fonts/apolloitalic.otf") ;
+}
+@font-face {
+  font-family: "NewtonHowardFont-Regular";
+  font-style: normal;
+  font-format: truetype;
+  font-weight: 400;
+  src: url("public/fonts/newton howard font.ttf") ;
+}
+@font-face {
+  font-family: "Luxerie";
+  font-style: normal;
+  font-format: opentype;
+  font-weight: 400;
+  src: url("public/fonts/luxerie.otf") ;
+}
+@font-face {
+  font-family: "RobotaNonCommercialRegular";
+  font-style: normal;
+  font-format: opentype;
+  font-weight: 400;
+  src: url("public/fonts/robota-noncommercial.otf") ;
+}
+@font-face {
+  font-family: "VladimirSans-Regular";
+  font-style: normal;
+  font-format: truetype;
+  font-weight: 400;
+  src: url("public/fonts/vladimirsans.ttf") ;
+}
+@font-face {
+  font-family: "Luxerie - bold";
+  font-style: normal;
+  font-format: truetype;
+  font-weight: 700;
+  src: url("public/fonts/luxerie.ttf") ;
+}
+@font-face {
+  font-family: "NewtonHowardFont-Italic";
+  font-style: italic;
+  font-format: truetype;
+  font-weight: 400;
+  src: url("public/fonts/newton howard font italic.ttf") ;
+}
+@font-face {
+  font-family: "Luxerie-Display";
+  font-style: normal;
+  font-format: opentype;
+  font-weight: 400;
+  src: url("public/fonts/luxerie display.otf") ;
+}
+
+:root {
+  --font-LouisGeorgeCafeLightItalic: "LouisGeorgeCafeLight-";
+  --font-APOLLO-Regular: "APOLLO-Regular";
+  --font-LouisGeorgeCafe: "LouisGeorgeCafe";
+  --font-OstrichSansInlineItalic: "OstrichSansInline-Italic";
+  --font-OstrichSansInline: "OstrichSansInline";
+  --font-APOLLO-Italic: "APOLLO-Italic";
+  --font-NewtonHoward-Regular: "NewtonHowardFont-Regular";
+  --font-Luxerie: "Luxerie";
+  --font-RobotaNonCommercialRegular: "RobotaNonCommercialRegular";
+  --font-VladimirSansRegular: "VladimirSans-Regular";
+  --font-LuxerieBold: "Luxerie - bold";
+  --font-NewtonHowardItalic: "NewtonHowardFont-Italic";
+  --font-LuxerieDisplay: "Luxerie-Display";
+}
+.apollo {
+  font-family: "APOLLO-Regular", sans-serif;
+}
+
+.apollo-italic {
+  font-family: "APOLLO-Italic", sans-serif;
+}
+
+.louis-george-cafe {
+  font-family: "LouisGeorgeCafe", sans-serif;
+}
+
+.louis-george-cafe-light {
+  font-family: "LouisGeorgeCafeLight-", sans-serif;
+  font-style: italic;
+}
+
+.ostrich-sans-inline {
+  font-family: "OstrichSansInline", sans-serif;
+}
+
+.ostrich-sans-inline-italic {
+  font-family: "OstrichSansInline-Italic", sans-serif;
+}
+
+.newton-howard {
+  font-family: "NewtonHowardFont-Regular", serif;
+}
+
+.newton-howard-italic {
+  font-family: "NewtonHowardFont-Italic", serif;
+  font-style: italic;
+}
+
+.luxerie {
+  font-family: "Luxerie", sans-serif;
+}
+
+.luxerie-bold {
+  font-family: "Luxerie - bold";
+}
+
+.luxerie-display {
+  font-family: "Luxerie-Display", sans-serif;
+}
+
+.robota {
+  font-family: "RobotaNonCommercialRegular", sans-serif;
+}
+
+.vladimir-sans {
+  font-family: "VladimirSans-Regular", sans-serif;
+}
+

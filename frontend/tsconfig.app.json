@@ -1,0 +1,11 @@
+// frontend/tsconfig.app.json
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@/*": [
+          "./src/*"
+        ]
+      }
+    }
+}
