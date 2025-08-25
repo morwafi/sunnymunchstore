@@ -3,28 +3,54 @@ version: '3'
 services:
   frontend:
     build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
+      context: ./frontend
+      dockerfile: Dockerfile
 
     container_name: frontend
     networks:
       - web
 
+
   admin:
     build:
-      context: .
-      dockerfile: ./admin/Dockerfile
+      context: ./admin
+      dockerfile: Dockerfile
 
     container_name: admin
     networks:
       - web
 
+
+  referral-program:
+    build:
+      context: ./referral-program
+      dockerfile: Dockerfile
+
+    container_name: referral-program
+    networks:
+      - web
+
+
   backend:
     build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
-
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: backend
+    networks:
+      - web
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/sunnymunch
+    depends_on:
+      - mongo
+
+  
+  mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
     networks:
       - web
 
@@ -32,22 +58,28 @@ services:
     image: nginx:alpine
     container_name: nginx
     ports:
+      - "443:443"
       - "80:80"
     volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
       - ./nginx:/etc/nginx/conf.d
-      # Mount the build outputs
-      - frontend_build:/usr/share/nginx/html/frontend
-      - admin_build:/usr/share/nginx/html/admin
+      - ./frontend/dist:/usr/share/nginx/html/frontend
+      - ./admin/dist:/usr/share/nginx/html/admin
+      - ./referral-program/dist:/usr/share/nginx/html/referral-program
+
     depends_on:
       - frontend
       - admin
       - backend
+      - referral-program
     networks:
       - web
 
 volumes:
   frontend_build:
   admin_build:
+  referral-program_build:
+  mongo-data:
 
 networks:
   web:

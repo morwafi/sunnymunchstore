@@ -8,7 +8,6 @@ RUN npm run build
 
 # Serve with Nginx
 FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html/frontend
-
+COPY --from=build /app/dist /usr/share/nginx/html/referral-program
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
