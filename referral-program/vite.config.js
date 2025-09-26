@@ -1,14 +1,26 @@
-import path from "path"
-import tailwindcss from "@tailwindcss/vite"
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import path from "path";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+export default ({ mode }) => {
+  // Load env from your custom folder
+  const env = loadEnv(mode, path.resolve(__dirname, '../MainEnv'));
+
+  return defineConfig({
+    plugins: [react(), tailwindcss()],
+    server: {
+      allowedHosts: ["referraldev.sunnymunch.com"],
+      host: true,
+      port: 5173,
     },
-  },
-})
+    define: {
+      'development.env': env,
+    },
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
+    },
+  });
+};

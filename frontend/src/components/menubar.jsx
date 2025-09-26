@@ -21,11 +21,11 @@ const MenuBar = ({
   ];
 
   return (
-    <div className="z-40 flex w-dvw justify-center items-center">
+    <div className="z-50 flex w-dvw justify-center items-center">
       <motion.ul
         layout
         transition={{ duration: 0.6, type: 'spring' }}
-        className={`flex ${isVertical ? 'flex-col items-center w-1/3! absolute left-px gap-4 mt-[10%] text-center' : 'flex-row justify-around'} w-full text-center`}
+        className={`flex ${isVertical ? 'flex-col items-center w-1/3! absolute left-[20%] max-sm:left-px gap-4 mt-[10%] text-center' : 'flex-row justify-around'} w-full text-center`}
       >
         {menubar.map((item, index) => (
           <motion.li
@@ -38,19 +38,20 @@ const MenuBar = ({
                 e.preventDefault();
                 onChangeView();
                 navigate(`/products/${item.label.toLowerCase()}`);
+                if (handleMenuItemClick) await handleMenuItemClick(item.label);
 
-                // Call fetch with the clicked menu
-                 await fetchFilteredProducts(
-                       {
-                         selectedMenu: item.label, 
-                         selectedCategory, 
-                         selectedBrand, 
-                         selectedPrice, 
-                         selectedSort, 
-                         searchQuery
-                       },
-                       setFilteredProducts  // ✅ this must exist in the scope
-                     );
+                // // Call fetch with the clicked menu
+                //  await fetchFilteredProducts(
+                //        {
+                //          selectedMenu: item.label, 
+                //          selectedCategory, 
+                //          selectedBrand, 
+                //          selectedPrice, 
+                //          selectedSort, 
+                //          searchQuery
+                //        },
+                //        setFilteredProducts  // ✅ this must exist in the scope
+                //      );
                    }}
               className="bg-gradient-gray5-text text-3xl! hover:underline louise-goerge-cafe"
             >

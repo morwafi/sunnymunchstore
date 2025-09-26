@@ -1,56 +1,246 @@
 version: '3'
 
 services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+  # ===== n8n Production =====
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: always
+    ports: 
+      - "5678"
+    environment:
+      NODE_ENV: production
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: morwafi
+      N8N_BASIC_AUTH_PASSWORD: ${ADMIN_PASS}
+      N8N_HOST: automated.sunnymunch.com
+      N8N_PORT: 5678
+      N8N_PROTOCOL: https
+      GENERIC_TIMEZONE: Africa/Johannesburg
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: 5432
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: true
+      DB_POSTGRESDB_DATABASE: n8n_prod
+      DB_POSTGRESDB_USER: n8nuser
+      DB_POSTGRESDB_PASSWORD: n8npass       
+      WEBHOOK_URL: https://sunnymunch.com/
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    networks:
+      - web
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./n8n-prod-data:/home/node/.n8n
 
-    container_name: frontend
+
+ # ===== n8n Development =====
+  n8n-dev:
+      image: n8nio/n8n:latest
+      container_name: n8n-dev
+      restart: unless-stopped
+      ports :
+        - "5679"
+      environment:
+        NODE_ENV: development
+        N8N_BASIC_AUTH_ACTIVE: "true"
+        N8N_BASIC_AUTH_USER: morwafi
+        N8N_BASIC_AUTH_PASSWORD: ${ADMIN_PASS}
+        N8N_HOST: automateddev.sunnymunch.com
+        N8N_PORT: 5679
+        N8N_PROTOCOL: http
+        N8N_DIAGNOSTICS_ENABLED: false
+        N8N_TELEMETRY_ENABLED: false
+        GENERIC_TIMEZONE: Africa/Johannesburg
+        N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: true
+        DB_TYPE: postgresdb
+        DB_POSTGRESDB_HOST: postgres
+        DB_POSTGRESDB_PORT: 5432
+        DB_POSTGRESDB_DATABASE: n8n_dev
+        DB_POSTGRESDB_USER: n8nuser
+        DB_POSTGRESDB_PASSWORD: n8npass
+        WEBHOOK_URL: https://automateddev.sunnymunch.com/
+        REDIS_PASSWORD: ${REDIS_PASSWORD}
+        REDIS_HOST: redis
+        REDIS_PORT: 6379
+        MONGO_URL: ${MONGO_DEV_URL}
+        MONGO_BeyondGreen_URL: ${MONGO_BeyondGreen_URL}
+      networks:
+        - web
+      depends_on:
+        - postgres
+        - redis
+      volumes:
+        - ./n8n-dev-data:/home/node/.n8n
+      
+  # ===== Redis =====
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    # Use the startup script as the only entrypoint
+    entrypoint: 
+      - /startup.sh
+    environment:
+      # This passes the password to the startup.sh script
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      # The startup script needs to be mounted
+      - ./startup.sh:/startup.sh
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - redis_data:/data
+    ports:
+      - "6379:6379"
     networks:
       - web
 
 
+  # ===== Production Servers =====
+  frontend:      
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args: 
+        BUILD_MODE: production
+    networks:
+      - web
+    depends_on:
+      - backend-dev
+
+
   admin:
+    container_name: admin
     build:
       context: ./admin
       dockerfile: Dockerfile
-
-    container_name: admin
+      args: 
+        BUILD_MODE: production
     networks:
       - web
 
 
   referral-program:
+    container_name: referral-program
     build:
       context: ./referral-program
       dockerfile: Dockerfile
-
-    container_name: referral-program
+      args: 
+        BUILD_MODE: production
     networks:
       - web
 
 
   backend:
+    container_name: backend
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: backend
+      args: 
+        BUILD_MODE: production
     networks:
       - web
     environment:
-      - MONGO_URL=mongodb://mongo:27017/sunnymunch
+      - NODE_ENV=production
+      - MONGO_URL=${MONGO_PROD_URL}
     depends_on:
       - mongo
 
-  
+  # ===== Development Servers =====
+  frontend-dev:
+    container_name: frontend-dev
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+      args: 
+        BUILD_MODE: development
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - web
+
+  backend-dev:
+    container_name: backend-dev
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+      args: 
+        BUILD_MODE: development
+    volumes:
+      - ./backend:/app/backend
+      - /app/node_modules
+    networks:
+      - web
+    environment:
+      - MONGO_URL=${MONGO_DEV_URL}
+      - NODE_ENV=development
+      - MONGO_BeyondGreen_URL=${MONGO_BeyondGreen_URL}
+    depends_on:
+      - mongo
+
+  admin-dev:
+    container_name: admin-dev
+    build:
+      context: ./admin
+      dockerfile: Dockerfile.dev
+      args: 
+        BUILD_MODE: development
+    ports:
+      - "5174:5173"
+    volumes:
+      - ./admin:/app
+      - /app/node_modules
+    networks:
+      - web
+
+  referral-dev:
+    container_name: referral-dev
+    build:
+      context: ./referral-program 
+      dockerfile: Dockerfile.dev
+      args: 
+        BUILD_MODE: development
+    ports:
+      - "5175:5173"
+    volumes:
+      - ./referral-program:/app/referral-program
+      - /app/node_modules
+    networks:
+      - web
+
+  # ===== Database =====
   mongo:
     image: mongo:latest
     restart: always
     ports:
-      - "27017:27017"
+      - "27018:27017"     # <— NOT exposed publicly
+    command: ["mongod","--auth","--bind_ip_all"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${ADMIN_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${ADMIN_PASS}
     volumes:
       - mongo-data:/data/db
+    networks:
+      - web
+  # ===== Nginx =====
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: n8n
+      POSTGRES_USER: n8nuser
+      POSTGRES_PASSWORD: n8npass
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - web
 
@@ -61,13 +251,14 @@ services:
       - "443:443"
       - "80:80"
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./nginx/.htpasswd:/nginx/.htpasswd:ro
+      -  /etc/letsencrypt:/etc/letsencrypt:ro
       - ./nginx:/etc/nginx/conf.d
       - ./frontend/dist:/usr/share/nginx/html/frontend
       - ./admin/dist:/usr/share/nginx/html/admin
       - ./referral-program/dist:/usr/share/nginx/html/referral-program
-
     depends_on:
+      - frontend-dev
       - frontend
       - admin
       - backend
@@ -80,7 +271,13 @@ volumes:
   admin_build:
   referral-program_build:
   mongo-data:
+  n8n-prod-data:
+  n8n-dev-data:
+  postgres-data:
+  redis_data:
 
 networks:
   web:
     driver: bridge
+
+

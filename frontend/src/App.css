@@ -160,4 +160,33 @@
 .vladimir-sans {
   font-family: "VladimirSans-Regular", sans-serif;
 }
-
+#payfast_div_container{
+  position: absolute;
+  z-index: 999;
+  color: white;
+}
+#wallet-wallet-funds{
+  background-color: transparent !important;
+  color: white !important;
+}
+#header{
+  background-color: transparent !important;
+  color: white !important;
+}
+#footer{
+  background-color: transparent !important;
+  color: white !important;
+}
+#payfast_compact_engine_iframe{
+  background-color: black !important;
+    position: relative !important;
+}
+#payfast_compact_engine_iframe::before {
+  content: url('/src/assets/credit.svg');
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 24px;
+  height: 24px;
+  opacity: 0.8;
+}

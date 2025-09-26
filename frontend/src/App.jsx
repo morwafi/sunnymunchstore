@@ -18,8 +18,8 @@ function App() {
         </div>
       <Routes>
         <Route path="/" element={<Home isVertical={isVertical} setIsVertical={setIsVertical} />} />
-        <Route path="/products/:menu" element={<Home isVertical={true} />}/>
-        <Route path="/products/:menu/:slug" element={<Home isVertical={true} />}/>
+        <Route path="/products/:menu" element={<Home isVertical={true} setIsVertical={setIsVertical} />} />
+        <Route path="/products/:menu/:slug" element={<Home isVertical={true} setIsVertical={setIsVertical} />} />
       </Routes>
   
 </AuthProvider>

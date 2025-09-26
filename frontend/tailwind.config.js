@@ -17,5 +17,17 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+      function ({ addUtilities }) {
+    const newUtilities = {
+      '.card-icon': {
+        'background-image': 'url(/assets/card.svg)', // your SVG path
+        'background-repeat': 'no-repeat',
+        'background-position': 'center',
+        'background-size': 'contain',
+      },
+    }
+    addUtilities(newUtilities, ['responsive'])
+  }
+  ]
 }

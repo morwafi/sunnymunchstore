@@ -8,7 +8,10 @@ import { check } from "zod";
 import { da } from "zod/v4/locales";
 import { useNavigate } from "react-router-dom";
 import UserProfile from "./userProfile";
-const LoginButton = () => {
+const LoginButton = ({
+  isVertical,
+  isMenuVisible
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [parentSize, setParentSize] = useState({ width: 0, height: 0 });
   const parentRef = useRef(null);
@@ -91,7 +94,7 @@ useEffect(() => {
         borderRadius: isExpanded ? "0px" : "0 0 9999px 0",
       }}
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className="absolute inset-0 flex flex-col justify-center items-center -translate-x-1/2 z-50 bg-black overflow-hidden"
+      className={`max-sm:!w-[100px] absolute inset-0 flex flex-col justify-center items-center max-sm:translate-x-[calc(100%-40vw)] md:!-translate-x-[calc(100%+-15vw)] lg:!translate-x-[calc(100%-28vw)] z-50 bg-black overflow-hidden ${isVertical && isMenuVisible ? 'max-sm:!left-1/6 w-1/6' : 'absolute inset-0 flex flex-col justify-center items-center -translate-x-1/2 z-50 bg-black overflow-hidden'}`}
     >
       {/* Collapsed (icon + label) */}
       {!isExpanded && (

@@ -16,13 +16,41 @@ const payfastRoutes = require("./routes/generateSignature")
 require('dotenv').config();
 
 const app = express();
-app.use(cors({
-  origin: 'https://sunnymunch.com', // Use your real domain here
-  credentials: true
-}));
+// const allowedOrigins = [
+//   'https://sunnymunch.com',
+//   'https://managementdev.sunnymunch.com',
+//   'https://dev.sunnymunch.com'
+// ];
+
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     // allow requests with no origin (like server-to-server)
+//     if (!origin) return callback(null, true);
+
+//     if (allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('CORS not allowed'));
+//     }
+//   },
+//   credentials: true
+// }));
+
+// // preflight
+// app.options('*', cors());
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true })); // Parse form data
+
+app.get("/payment-success", (req, res) => {
+  res.send("<h2>Payment Successful ✅</h2>");
+});
+
+app.get("/payment-cancel", (req, res) => {
+  res.send("<h2>Payment Cancelled ❌</h2>");
+});
+
 
 app.use('/api/cart/', cartSession ,cartRoutes);
 app.use('/api/cartmerge/', cartMergeRoutes)
@@ -34,8 +62,20 @@ app.use('/product-uploads', express.static(path.join(__dirname, 'product-uploads
 app.use('/api/users', user);
 app.use('/api/location', locationRoute);
 app.use("/api/payfast", payfastRoutes);
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
+if (process.env.NODE_ENV === "development") {
+
+mongoose.connect(process.env.MONGO_DEV)  
+.then(() => {
     app.listen(5000, () => console.log('Server running on http://localhost:5000'));
   })
+.catch(console.error);
+
+} else {
+  mongoose.connect(process.env.MONGO_PROD)
+  .then(() => {
+      app.listen(5000, () => console.log('Server running on http://localhost:5000'));
+    })
   .catch(console.error);
+}
+
+

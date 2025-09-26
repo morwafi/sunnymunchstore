@@ -136,13 +136,13 @@ setBrand(brandsWithCount);
 const { menu } = useParams();  // <-- grab current menu from URL
 
 return (
-    <div className="border border-gray-300 rounded-full flex items-center flex-row flex-wrap justify-between mb-4">
+    <div className="border max-sm:h-30 max-sm:!rounded-xl border-gray-300 rounded-full flex items-center flex-row flex-wrap justify-between mb-4">
     <div className="flex items-center flex-row flex-wrap justify-between">
         {/* {content.map((item, index) => ( */}
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="rounded-full!">sort</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="rounded-full! !bg-transparent">sort</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     {sortables.map((item, index) => (
                     <NavigationMenuLink 
@@ -166,7 +166,7 @@ return (
         <NavigationMenu >
           <NavigationMenuList >
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="rounded-full!">Category</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="rounded-full! !bg-transparent">Category</NavigationMenuTrigger>
               <NavigationMenuContent >
                 {categories.map((category, index) => (
                 <NavigationMenuLink 
@@ -190,7 +190,7 @@ return (
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="rounded-full!">Price</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="rounded-full! !bg-transparent">Price</NavigationMenuTrigger>
               <NavigationMenuContent>
                 {price.map((price, index) => (
                 <NavigationMenuLink 
@@ -213,7 +213,7 @@ return (
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="rounded-full!">Brand</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="rounded-full! !bg-transparent">Brand</NavigationMenuTrigger>
               <NavigationMenuContent>
                 {brands.map((brand, index) => (
                 <NavigationMenuLink 

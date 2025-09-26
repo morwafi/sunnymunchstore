@@ -36,7 +36,7 @@ const SearchBar = ({ products }) => {
             onChange={(e) => setQuery(e.target.value)}
             class="border-none  h-full w-full" 
             />
-            <Button>
+            <Button className="!bg-transparent">
                 <Search color="black" className="rounded-full!"/>
             </Button>
         </div>

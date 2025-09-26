@@ -7,6 +7,7 @@ import {ProtectedRoute}from "./pages/authy";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/settings";
 import Products from "./pages/products";
+
 function App() {
   const [adminExists, setAdminExists] = useState(null);
 

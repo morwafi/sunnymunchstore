@@ -1,6 +1,7 @@
 # Build React app
 FROM node:20 AS build
 WORKDIR /app
+ARG BUILD_MODE=production
 COPY package*.json ./
 RUN npm install
 COPY . .

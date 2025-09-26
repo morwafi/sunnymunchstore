@@ -15,6 +15,7 @@ const Products = ({
   setSelectedBrand,
   setSelectedPrice,
   setSelectedSort,
+  isVertical,
 }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -27,7 +28,7 @@ const Products = ({
     }
   }, [selectedCategory, selectedBrand, selectedPrice, selectedSort]);
 return (
-    <div className="flex flex-col h-full gap-6 w-2/3 z-5 top-[90px] absolute right-[0px] px-10">
+    <div className={`flex flex-col h-full gap-6 w-2/3 z-5 top-[90px] absolute right-[0px] px-10 ${isVertical ? 'max-sm:left-[0px] max-sm:w-full p-4' : ''}`}>
       <SearchBar products={products} />
       <CategoryFilter
         setSelectedCategory={setSelectedCategory}

@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5000/api/product', // backend route
+  baseURL: 'https://managementdev.sunnymunch.com/api/product', // backend route
   withCredentials: true
 })
 

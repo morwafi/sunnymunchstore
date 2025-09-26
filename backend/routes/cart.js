@@ -39,7 +39,7 @@ router.post('/addtocart', async (req, res) => {
     res.json(req.cart.items);
 });
 
-router.post('removefromcart', async(req, res) => {
+router.post('/removefromcart', async(req, res) => {
    const {productId} = req.body;
    req.cart.items = req.cart.items.filter(item => item.productId.toString() !== productId);
    req.cart.updatedAt = new Date();
