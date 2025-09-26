@@ -26,4 +26,7 @@ dist-ssr
 .env
 MainEnv/.env 
 backend/.env
-frontend/.env
+frontend/.env.env
+MainEnv/.env
+MainEnv/.env.development
+MainEnv/.env.production
