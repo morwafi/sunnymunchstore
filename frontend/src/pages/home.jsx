@@ -121,7 +121,7 @@ const Home = ({ item, isVertical, setIsVertical }) => {
       )}
       {/* MenuBar */}
 <div
-  className={`w-100 flex overflow-auto min-h-dvh items-center justify-start
+  className={`min-w-100 flex overflow-auto min-h-dvh items-center justify-start
     transition-all duration-300 ease-in-out absolute top-0 left-0 z-50
     ${isVertical 
       ? (isMenuVisible 

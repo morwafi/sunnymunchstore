@@ -12,13 +12,13 @@ export default ({ mode }) => {
     plugins: [react(), tailwindcss()],
 
     server: {
-      allowedHosts: ["dev.sunnymunch.com"],
+      allowedHosts: ["dev.sinceitssunny.com"],
       host: true,
       port: 5173,
       strictPort: true,
       proxy: {
         "/api": {
-          target: "https://managementdev.sunnymunch.com",
+          target: "https://managementdev.sinceitssunny.com",
           changeOrigin: true,
           secure: false,
         },

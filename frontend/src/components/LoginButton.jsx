@@ -65,7 +65,7 @@ useEffect(() => {
     // new value clamped so it never exceeds 50%
     const newLeft = Math.min(base + diff * step, 50);
 
-    setLeftPos(`${isExpanded ? 50 : newLeft}%`);
+    setLeftPos(`${isExpanded ? 67 : newLeft}%`);
   };
 
   // run on mount + resize
