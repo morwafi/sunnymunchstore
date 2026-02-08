@@ -33,7 +33,7 @@ const formSchema = z.object({
     repeatpassword: z.string().min(8, {
         message: "passwords do not match",
     }),
-    notification: z.boolean().refine(val => val === true, {}).optional(),
+    notification: z.boolean().optional(),
     terms: z.boolean().refine(val => val === true, {
     message: "You must accept the terms",
   }),
@@ -46,15 +46,18 @@ const RegisterForm = ({}) => {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
-            email: "",
-            password: "",
-            repeatpassword: "",
-            notification : null,
+          username: "",
+          email: "",
+          birthdate: "",
+          password: "",
+          repeatpassword: "",
+          notification: false,
+          terms: false,
         },
     });
 
     const onSubmit = async (values) => {
+    console.log("FORM SUBMITTED:", values);
     const res = await registerUser(values);
     if (res.success) {
       alert("Registered successfully!");
@@ -63,10 +66,10 @@ const RegisterForm = ({}) => {
     }
     };
     return(
-        <div className="h-fit w-1/2 flex flex-col gap-6 justify-center items-center">
-            <h2 className="text-lg text-center font-bold mb-4 text-white">Login</h2>
+        <div className="mt-4 mb-4 h-full w-1/2 flex flex-col gap-6 justify-center items-center">
+            <h2 className="text-lg text-center color-white font-bold mb-4 text-white">Register</h2>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col justify-center items-center gap-6 h-full w-full">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="pt-50 flex flex-col justify-center items-center gap-6 h-full w-full">
                     <FormField
                     control={form.control}
                     name="username"
@@ -137,15 +140,29 @@ const RegisterForm = ({}) => {
                     )}
                     />
                     <div className="flex flex-col gap-6 w-1/2">
-                        <div className="flex flex-row gap-2">
-                            <Checkbox id="terms" name="terms" className="data-[state=checked]:bg-black! data-[state=checked]:text-white! border-white!" defaultChecked/>
-                            <div className="flex flex-col gap-2">
-                            <Label htmlFor="terms" className="text-white">Accept terms and conditions</Label>
-                            <p className="text-muted-foreground text-sm">
-                              By clicking this checkbox, you agree to the terms and conditions.
-                            </p>
-                            </div>
-                        </div>
+                       <FormField
+  control={form.control}
+  name="terms"
+  render={({ field }) => (
+    <FormItem className="flex flex-row gap-2">
+      <FormControl>
+        <Checkbox
+          checked={field.value}
+          onCheckedChange={field.onChange}
+        />
+      </FormControl>
+      <div className="flex flex-col gap-2">
+        <FormLabel className="text-white">
+          Accept terms and conditions
+        </FormLabel>
+        <FormDescription>
+          By clicking this checkbox, you agree to the terms and conditions.
+        </FormDescription>
+        <FormMessage />
+      </div>
+    </FormItem>
+  )}
+/>
                         <div className="flex flex-row gap-2">
                             <FormField
                               control={form.control}

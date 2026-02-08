@@ -18,8 +18,10 @@ const LoginButton = ({
   const [loggedIn, setLoggedin] =   useState(false)
   const navigate = useNavigate();
   const [username, setUsername] = useState("")
-
   const [userData, setUserData] = useState({loggedIn: false, userId: "", username: "", email: "", birthdate: ""});
+  const baseClasses = `max-sm:w-[100px] max-sm:left-1 min-md:left-2/5! absolute inset-0 flex flex-col z-50 justify-center items-center max-sm:translate-x-[calc(100%-40vw)] md:!-translate-x-[calc(100%+-15vw)] lg:!translate-x-[calc(100%-28vw)] z-50 bg-black overflow-hidden`
+  const expandedClasses = `min-md:w- min-md:left-[-60%]! z-50 w-dvw absolute inset-0 flex flex-col justify-center items-center bg-black overflow-hidden`
+  const collapsedClasses = `max-sm:left-[15%]! min-md:left[0%]! max-sm:!w-[100px] absolute inset-0 flex flex-col justify-center items-center -translate-x-1/2 z-50 bg-black overflow-hidden`
   useEffect(() => {
     const LoggedinUser = async () => {
         const data = await checkAuth();
@@ -63,9 +65,9 @@ useEffect(() => {
     const diff = Math.max(0, Math.floor((referenceWidth - window.innerWidth) / 50));
 
     // new value clamped so it never exceeds 50%
-    const newLeft = Math.min(base + diff * step, 50);
+    const newLeft = Math.min(base + diff * step, 10);
 
-    setLeftPos(`${isExpanded ? 67 : newLeft}%`);
+    setLeftPos(`${isExpanded ? 65 : newLeft}%`);
   };
 
   // run on mount + resize
@@ -85,16 +87,17 @@ useEffect(() => {
   return (
     <motion.div
       ref={parentRef}
-      onClick={() => !isExpanded && setIsExpanded(true)} // only expand on click
+      onClick={() => !isExpanded && setIsExpanded(true)} // only expand on click      
+      className={`${baseClasses} ${isExpanded ? expandedClasses : collapsedClasses}`}
+
       animate={{
         top: isExpanded ? 0 : "0px",
-        left: isExpanded ? "50%" : leftPos,
-        width: isExpanded ? '100%' : 160, // w-40 = 160px
+        left: isExpanded ? "-60%" : leftPos,
+        width: isExpanded ? '100%' : 180, // w-40 = 160px
         height: isExpanded ? "100%" : 80, // h-20 = 80px
         borderRadius: isExpanded ? "0px" : "0 0 9999px 0",
       }}
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className={`max-sm:!w-[100px] absolute inset-0 flex flex-col justify-center items-center max-sm:translate-x-[calc(100%-40vw)] md:!-translate-x-[calc(100%+-15vw)] lg:!translate-x-[calc(100%-28vw)] z-50 bg-black overflow-hidden ${isVertical && isMenuVisible ? 'max-sm:!left-1/6 w-1/6' : 'absolute inset-0 flex flex-col justify-center items-center -translate-x-1/2 z-50 bg-black overflow-hidden'}`}
     >
       {/* Collapsed (icon + label) */}
       {!isExpanded && (
@@ -113,7 +116,7 @@ useEffect(() => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="relative w-full h-full flex items-center justify-center"
+          className="overflow-y-auto relative w-full h-full flex items-center justify-center"
         >
           {/* Close button */}
           <button

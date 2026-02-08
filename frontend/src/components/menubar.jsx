@@ -25,7 +25,7 @@ const MenuBar = ({
       <motion.ul
         layout
         transition={{ duration: 0.6, type: 'spring' }}
-        className={`flex ${isVertical ? 'flex-col items-center w-1/4! absolute left-[20%] max-sm:left-px gap-4 mt-[10%] text-center' : 'flex-row justify-around'} w-full text-center`}
+        className={`flex ${isVertical ? 'flex-col items-center w-1/6! absolute left-[2.333%] max-sm:left-px gap-4 mt-[10%] text-center' : 'flex-row justify-around'} w-full text-center`}
       >
         {menubar.map((item, index) => (
           <motion.li

@@ -1,3 +1,4 @@
+"use client"
 import { useEffect } from "react";
 import { Input } from "./ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
@@ -44,10 +45,10 @@ const Loginform = ({}) => {
     });
 }, []);
     return (
-        <div className="h-fit w-1/2 flex flex-col gap-6 justify-center items-center">
+        <div className="mt-4 h-fit w-1/2 flex flex-col gap-6 justify-center items-center">
             <h2 className="text-lg text-center font-bold mb-4 text-white">Login</h2>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col justify-center items-center gap-6 h-full w-full">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="pt-4 pb-4 flex flex-col justify-center items-center gap-6 h-full w-full">
                     <FormField 
                     control={form.control}
                     name="email"
