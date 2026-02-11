@@ -16,25 +16,25 @@ const payfastRoutes = require("./routes/generateSignature")
 require('dotenv').config();
 
 const app = express();
-const allowedOrigins = [
-  'https://sinceitssunny.com',
-  'https://managementdev.sinceitssunny.com',
-  'https://dev.sinceitssunny.com'
-];
+// const allowedOrigins = [
+//   'https://sinceitssunny.com',
+//   'https://managementdev.sinceitssunny.com',
+//   'https://dev.sinceitssunny.com'
+// ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (like server-to-server)
-    if (!origin) return callback(null, true);
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     // allow requests with no origin (like server-to-server)
+//     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS not allowed'));
-    }
-  },
-  credentials: true
-}));
+//     if (allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('CORS not allowed'));
+//     }
+//   },
+//   credentials: true
+// }));
 
 // preflight
 app.options('*', cors());
